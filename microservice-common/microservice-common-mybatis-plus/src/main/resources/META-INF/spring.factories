@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+fun.xiaorang.microservice.common.mybatisplus.config.MybatisPlusConfig,\
+fun.xiaorang.microservice.common.mybatisplus.handler.MyMetaObjectHandler
