@@ -14,7 +14,9 @@ spring:
         file-extension: yml
         refresh-enabled: true
         extension-configs:
-          - data-id: web-${spring.profiles.active}.yml
+          - data-id: microservice-web.yml
+            refresh: true
+          - data-id: microservice-common.yml
             refresh: true
 
 logging:

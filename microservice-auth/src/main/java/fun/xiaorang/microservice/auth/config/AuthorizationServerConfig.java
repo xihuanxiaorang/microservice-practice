@@ -1,6 +1,5 @@
 package fun.xiaorang.microservice.auth.config;
 
-import fun.xiaorang.microservice.auth.enums.PasswordEncoderTypeEnum;
 import fun.xiaorang.microservice.auth.pojo.SysUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.BaseClientDetails;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -22,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.*;
 
@@ -38,25 +38,11 @@ import java.util.*;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     private final ClientDetailsService clientDetailsService;
     private final AuthenticationManager authenticationManager;
+    private final DataSource dataSource;
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(clientId -> {
-            // TODO: 2023/12/01 17:02 先写死，后面再通过 Feign 调用后台管理服务获取
-            final BaseClientDetails clientDetails = new BaseClientDetails(
-                    "client1",
-                    "res1",
-                    "scope1,scope2",
-                    "authorization_code,password,client_credentials,implicit,refresh_token,",
-                    "",
-                    "https://www.baidu.com"
-            );
-            clientDetails.setAutoApproveScopes(List.of("true", "true"));
-            clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + "123456");
-            clientDetails.setAccessTokenValiditySeconds(60 * 60);
-            clientDetails.setRefreshTokenValiditySeconds(60 * 60 * 24 * 3);
-            return clientDetails;
-        });
+        clients.withClientDetails(new JdbcClientDetailsService(dataSource));
     }
 
     @Override

@@ -1,25 +1,25 @@
 # 1. 授权码模式
 ### 1.1. 申请授权码
-GET http://localhost:9000/oauth/authorize?client_id=client1&response_type=code
+GET http://localhost:9000/oauth/authorize?client_id=client&response_type=code
 Authorization: Basic admin 123456
 
 ### 1.2. 获取访问令牌
-POST http://localhost:9000/oauth/token?grant_type=authorization_code&code=BMFAw_
-Authorization: Basic client1 123456
+POST http://localhost:9000/oauth/token?grant_type=authorization_code&code=WdarXN
+Authorization: Basic client 123456
 
 ### 2. 密码模式
 POST http://localhost:9000/oauth/token?grant_type=password&username=admin&password=123456
-Authorization: Basic client1 123456
+Authorization: Basic client 123456
 
 ### 3. 简化模式
-GET http://localhost:9000/oauth/authorize?client_id=client1&response_type=token
+GET http://localhost:9000/oauth/authorize?client_id=client&response_type=token
 Authorization: Basic admin 123456
 
 ### 4. 客户端模式
 POST http://localhost:9000/oauth/token?grant_type=client_credentials
-Authorization: Basic client1 123456
+Authorization: Basic client 123456
 
 ### 刷新令牌
 POST http://localhost:9000/oauth/token?grant_type=refresh_token&
-    refresh_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsicmVzMSJdLCJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInNjb3BlMSIsInNjb3BlMiJdLCJhdGkiOiJQUXRTNDZFNlZWV05USlZ4V0J3OXFPT0FlYWsiLCJleHAiOjE3MDE5MzcyNzcsInVzZXJJZCI6MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJMOERraWNRV0tMcENmTjF3cE5uSVFFLVRKTnMiLCJjbGllbnRfaWQiOiJjbGllbnQxIiwidXNlcm5hbWUiOiJhZG1pbiJ9.RJnafA_yQs6GAH3zVhWPwmMeIkeb6iiJTQLI5YVeOXMln1lmGgb7e3hMPQkZyIN125xrNUsvmaGt8n68oTSAiYf01AvkVwaHcaCQWdbh9v1DVMvDpdo7750nfWDURe-KulrKdi28WbbcBsafldYuclHxMqhTADad8O8LV_9t37ueRVw4grHdWcLUaxDNefawbW2Znno4aVAJtSNH-ZgQNcgmRVthXYiCpGWbdLZov3z5EQjfSi7OgLQ9PJMyqNv4i7Lt0cnq7y6gNbO8o3xvwukWjYyMgOdD5ioJoHIu9fW1UsZ7fCAvBSn2Y53YtJPBC3m40UgPoBQ-J2v7Wnlopw
-Authorization: Basic client1 123456
+    refresh_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJhdGkiOiIxVVBLSHdSbnZLbW10SkFaMVlWR3hmTzlHNU0iLCJleHAiOjE3MDE5Njk5MzEsInVzZXJJZCI6MSwiYXV0aG9yaXRpZXMiOlsiUk9MRV9BRE1JTiJdLCJqdGkiOiJYdm4teGxNTmIzdk9hb3FKdGgyckhycmJ5WFkiLCJjbGllbnRfaWQiOiJjbGllbnQiLCJ1c2VybmFtZSI6ImFkbWluIn0.ecE9igVtIWSVrA-XzGNTfHpiyyL2MU_reTPypsmgxtx57zQSR3SrAsd64Z1EJdsY0_30ry3VX1k9w1-RBEiXi3LQJ5g9OhUJVbbPDErffvHkLXLfFW-gbyx-3U4ngQS9x4poKc6GxCmo_tEcHH8lW9mBl1Fg_tdQCEaYOf64MRTAGx8X8EEgr1LOZ-uJ8uiewpefsoXD_gwwsnKJPmQcusH5al2OtA0V-6qKuTM0J2Twh9TErdQ1rFWtXG9R2x3zCo5cAFD5aXHlfRgDlJq7PFmpo-FDsKm4gp8t6M7yq4923Ep4cqVc_tkZ-ywwpTqYooRCa_emoiBn2Xow3mawmg
+Authorization: Basic client 123456
