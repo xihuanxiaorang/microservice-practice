@@ -16,7 +16,7 @@ import lombok.Data;
 @Builder
 public class Result<T> {
     private Boolean success;
-    private Integer code;
+    private String code;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String msg;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,10 +43,18 @@ public class Result<T> {
                 .build();
     }
 
-    public static <T> Result<T> fail(Integer code, String msg) {
+    public static <T> Result<T> fail(String code, String msg) {
         return Result.<T>builder()
                 .success(false)
                 .code(code)
+                .msg(msg)
+                .build();
+    }
+
+    public static <T> Result<T> fail(String msg) {
+        return Result.<T>builder()
+                .success(false)
+                .code(ResultCode.SYSTEM_EXECUTION_ERROR.getCode())
                 .msg(msg)
                 .build();
     }

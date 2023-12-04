@@ -18,7 +18,7 @@ public class EnumUtil {
      * @param code  枚举值
      * @return 是否存在，true：存在，false：不存在
      */
-    public static boolean isExist(BaseEnum[] enums, Integer code) {
+    public static boolean isExist(BaseEnum[] enums, String code) {
         if (code == null) {
             return false;
         }
@@ -37,7 +37,7 @@ public class EnumUtil {
      * @param code  枚举值
      * @return 枚举名称
      */
-    public static String getNameByCode(BaseEnum[] enums, Integer code) {
+    public static String getNameByCode(BaseEnum[] enums, String code) {
         if (code == null) {
             return null;
         }
@@ -56,7 +56,7 @@ public class EnumUtil {
      * @param name  枚举名称
      * @return 枚举值
      */
-    public static Integer getCodeByName(BaseEnum[] enums, String name) {
+    public static String getCodeByName(BaseEnum[] enums, String name) {
         if (name == null) {
             return null;
         }
@@ -75,7 +75,7 @@ public class EnumUtil {
      * @param code  枚举值
      * @return 枚举对象
      */
-    public static BaseEnum getEnumByCode(BaseEnum[] enums, Integer code) {
+    public static BaseEnum getEnumByCode(BaseEnum[] enums, String code) {
         if (code == null) {
             return null;
         }

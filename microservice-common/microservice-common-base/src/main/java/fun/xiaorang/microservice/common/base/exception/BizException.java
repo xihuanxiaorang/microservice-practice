@@ -11,16 +11,16 @@ import lombok.Getter;
  * @date 2023/11/20 21:32
  */
 @Getter
-public class BusinessException extends RuntimeException {
-    private final Integer code;
+public class BizException extends RuntimeException {
+    private final String code;
     private final String msg;
 
-    public BusinessException(Integer code, String msg) {
+    public BizException(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public BusinessException(ResultCode resultCode) {
+    public BizException(ResultCode resultCode) {
         this.code = resultCode.getCode();
         this.msg = resultCode.getName();
     }
