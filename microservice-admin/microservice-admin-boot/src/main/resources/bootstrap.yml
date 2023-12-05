@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: microservice-admin
+  profiles:
+    active: dev

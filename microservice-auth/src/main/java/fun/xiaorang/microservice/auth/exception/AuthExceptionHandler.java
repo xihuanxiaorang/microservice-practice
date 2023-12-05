@@ -2,13 +2,14 @@ package fun.xiaorang.microservice.auth.exception;
 
 import fun.xiaorang.microservice.common.base.enums.ResultCode;
 import fun.xiaorang.microservice.common.base.model.Result;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -26,10 +27,10 @@ public class AuthExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<Result<Void>> handleException(UsernameNotFoundException e) {
-        return ResponseEntity.badRequest()
-                .body(Result.fail(ResultCode.USER_NOT_EXIST));
+    public <T> Result<T> handleException(UsernameNotFoundException e) {
+        return Result.fail(ResultCode.USER_NOT_EXIST);
     }
 
     /**
@@ -38,10 +39,10 @@ public class AuthExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidGrantException.class)
-    public ResponseEntity<Result<Void>> handleException(InvalidGrantException e) {
-        return ResponseEntity.badRequest()
-                .body(Result.fail(ResultCode.USERNAME_OR_PASSWORD_ERROR));
+    public <T> Result<T> handleException(InvalidGrantException e) {
+        return Result.fail(ResultCode.USERNAME_OR_PASSWORD_ERROR);
     }
 
     /**
@@ -50,10 +51,10 @@ public class AuthExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidClientException.class)
-    public ResponseEntity<Result<Void>> handleException(InvalidClientException e) {
-        return ResponseEntity.badRequest()
-                .body(Result.fail(ResultCode.CLIENT_AUTHENTICATION_FAILED));
+    public <T> Result<T> handleException(InvalidClientException e) {
+        return Result.fail(ResultCode.CLIENT_AUTHENTICATION_FAILED);
     }
 
     /**
@@ -62,10 +63,10 @@ public class AuthExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({InternalAuthenticationServiceException.class})
-    public ResponseEntity<Result<Void>> handleException(InternalAuthenticationServiceException e) {
-        return ResponseEntity.badRequest()
-                .body(Result.fail(e.getMessage()));
+    public <T> Result<T> handleException(InternalAuthenticationServiceException e) {
+        return Result.fail(e.getMessage());
     }
 
     /**
@@ -74,9 +75,9 @@ public class AuthExceptionHandler {
      * @param e
      * @return
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({InvalidTokenException.class})
-    public ResponseEntity<Result<Void>> handleException(InvalidTokenException e) {
-        return ResponseEntity.badRequest()
-                .body(Result.fail(e.getMessage()));
+    public <T> Result<T> handleException(InvalidTokenException e) {
+        return Result.fail(e.getMessage());
     }
 }

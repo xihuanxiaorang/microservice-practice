@@ -1,7 +1,10 @@
 package fun.xiaorang.microservice.auth.config;
 
 import cn.hutool.json.JSONUtil;
+import fun.xiaorang.microservice.admin.api.UserFeignClient;
+import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
 import fun.xiaorang.microservice.auth.pojo.SysUserDetails;
+import fun.xiaorang.microservice.common.base.enums.ResultCode;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -9,18 +12,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author xiaorang
@@ -35,6 +37,8 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserFeignClient userFeignClient;
+
     @Setter
     private String[] ignoreUrls;
 
@@ -77,17 +81,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService sysUserDetailsService() {
         return username -> {
-            // TODO: 2023/12/01 17:15 先写死，后面再通过 Feign 调用后台管理服务获取
-            final List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            return SysUserDetails
-                    .builder()
-                    .userId(1L)
-                    .username("admin")
-                    .password(passwordEncoder().encode("123456"))
-                    .enabled(true)
-                    .authorities(authorities)
-                    .build();
+            final UserAuthInfo userAuthInfo = userFeignClient.getUserAuthInfo(username);
+            if (userAuthInfo == null) {
+                throw new UsernameNotFoundException(ResultCode.USER_NOT_EXIST.getMsg());
+            }
+            SysUserDetails sysUserDetails = new SysUserDetails(userAuthInfo);
+            if (!sysUserDetails.isEnabled()) {
+                throw new DisabledException("该账户已被禁用，请联系管理员");
+            } else if (!sysUserDetails.isAccountNonLocked()) {
+                throw new LockedException("该账号已被锁定，请联系管理员");
+            }
+            return sysUserDetails;
         };
     }
 

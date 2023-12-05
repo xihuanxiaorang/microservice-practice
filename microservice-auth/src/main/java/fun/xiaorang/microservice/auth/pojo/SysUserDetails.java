@@ -1,13 +1,15 @@
 package fun.xiaorang.microservice.auth.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import cn.hutool.core.collection.CollectionUtil;
+import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
+import fun.xiaorang.microservice.auth.enums.PasswordEncoderTypeEnum;
+import fun.xiaorang.microservice.common.base.enums.StatusEnum;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * @author xiaorang
@@ -17,9 +19,6 @@ import java.util.Collection;
  * @date 2023/12/01 21:46
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class SysUserDetails implements UserDetails {
     /**
      * 扩展字段：用户ID
@@ -32,7 +31,19 @@ public class SysUserDetails implements UserDetails {
     private String username;
     private String password;
     private boolean enabled;
+    private boolean locked;
     private Collection<SimpleGrantedAuthority> authorities;
+
+    public SysUserDetails(UserAuthInfo userAuthInfo) {
+        this.userId = userAuthInfo.getUserId();
+        this.username = userAuthInfo.getUsername();
+        this.password = PasswordEncoderTypeEnum.BCRYPT.getPrefix() + userAuthInfo.getPassword();
+        this.enabled = StatusEnum.ENABLE.getValue().equals(userAuthInfo.getStatus());
+        this.locked = userAuthInfo.getLocked() == 1;
+        if (CollectionUtil.isNotEmpty(userAuthInfo.getRoles())) {
+            this.authorities = userAuthInfo.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        }
+    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -41,7 +52,7 @@ public class SysUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !this.locked;
     }
 
     @Override

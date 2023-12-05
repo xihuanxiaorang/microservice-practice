@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+fun.xiaorang.microservice.common.web.config.FeignConfig,\
 fun.xiaorang.microservice.common.web.config.GlobalCorsConfig,\
 fun.xiaorang.microservice.common.web.config.JacksonConfig,\
 fun.xiaorang.microservice.common.web.converter.String2LocalDateConverter,\

@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
  */
 @Data
 public class BaseEntity implements Serializable {
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
     /**
      * 创建时间
      */
@@ -44,6 +46,6 @@ public class BaseEntity implements Serializable {
     /**
      * 是否删除（0-否，1-是）
      */
-    @TableLogic
+    @TableLogic(value = "0", delval = "1")
     private Integer deleted;
 }

@@ -12,11 +12,12 @@
 
     <groupId>fun.xiaorang.microservice</groupId>
     <artifactId>microservice-parent</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>microservice-common</module>
         <module>microservice-auth</module>
+        <module>microservice-admin</module>
     </modules>
 
     <properties>
@@ -105,6 +106,11 @@
             <dependency>
                 <groupId>fun.xiaorang.microservice</groupId>
                 <artifactId>microservice-common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>fun.xiaorang.microservice</groupId>
+                <artifactId>microservice-admin-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -1,0 +1,20 @@
+server:
+  port: 8800
+
+spring:
+  cloud:
+    nacos:
+      server-addr: http://localhost:8848
+      discovery:
+        namespace: ${spring.profiles.active}
+        group: microservice-practice
+      config:
+        namespace: ${spring.profiles.active}
+        group: microservice-practice
+        file-extension: yml
+        refresh-enabled: true
+        extension-configs:
+          - data-id: microservice-web.yml
+            refresh: true
+          - data-id: microservice-common.yml
+            refresh: true
