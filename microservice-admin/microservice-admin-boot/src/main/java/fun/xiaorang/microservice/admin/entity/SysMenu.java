@@ -26,35 +26,25 @@ public class SysMenu extends BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     /**
-     * 菜单名称
-     */
-    private String name;
-    /**
-     * 权限标识
-     */
-    private String permission;
-    /**
-     * 菜单类型（0-目录，1-菜单，2-按钮）
-     */
-    private Integer type;
-    /**
-     * 显示顺序
-     */
-    private Integer sort;
-    /**
      * 父菜单id
      */
     private Long parentId;
     /**
-     * 路由地址
+     * 菜单类型（1-菜单，2-目录，3-外链，4-按钮）
+     *
+     * @see fun.xiaorang.microservice.admin.enums.MenuTypeEnum
+     */
+    private Integer type;
+    /**
+     * 菜单名称
+     */
+    private String name;
+    /**
+     * 路由地址（浏览器地址栏路径）
      */
     private String path;
     /**
-     * 菜单图标
-     */
-    private String icon;
-    /**
-     * 组件路径
+     * 组件路径（vue页面完整路径，省略.vue后缀）
      */
     private String component;
     /**
@@ -62,7 +52,21 @@ public class SysMenu extends BaseEntity {
      */
     private String componentName;
     /**
+     * 按钮权限标识
+     */
+    private String perm;
+    /**
+     * 菜单图标
+     */
+    private String icon;
+    /**
+     * 显示顺序
+     */
+    private Integer sort;
+    /**
      * 菜单状态（0-正常，1-停用）
+     *
+     * @see fun.xiaorang.microservice.common.base.enums.StatusEnum
      */
     private Integer status;
     /**
@@ -70,11 +74,20 @@ public class SysMenu extends BaseEntity {
      */
     private Integer visible;
     /**
-     * 是否缓存（0-否，1-是）
+     * 跳转路径
+     */
+    private String redirect;
+    /**
+     * 【目录】只有一个子路由是否始终显示（0-否，1-是）
+     */
+    private Integer alwaysShow;
+
+    /**
+     * 【菜单】是否开启页面缓存（0-否，1-是）
      */
     private Integer keepAlive;
     /**
-     * 是否总是显示（0-否，1-是）
+     * 备注
      */
-    private Integer alwaysShow;
+    private String remark;
 }

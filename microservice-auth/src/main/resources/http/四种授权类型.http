@@ -4,7 +4,7 @@ GET http://localhost:9000/oauth/authorize?client_id=client&response_type=code
 Authorization: Basic admin 123456
 
 ### 1.2. 获取访问令牌
-POST http://localhost:9000/oauth/token?grant_type=authorization_code&code=WdarXN
+POST http://localhost:9000/oauth/token?grant_type=authorization_code&code=wkqu0t
 Authorization: Basic client 123456
 
 ### 2. 密码模式

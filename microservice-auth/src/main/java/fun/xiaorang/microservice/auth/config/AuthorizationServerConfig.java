@@ -1,5 +1,8 @@
 package fun.xiaorang.microservice.auth.config;
 
+import fun.xiaorang.microservice.admin.api.OauthClientFeignClient;
+import fun.xiaorang.microservice.admin.dto.OauthClientDTO;
+import fun.xiaorang.microservice.auth.enums.PasswordEncoderTypeEnum;
 import fun.xiaorang.microservice.auth.pojo.SysUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.NoSuchClientException;
+import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -21,7 +25,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
-import javax.sql.DataSource;
 import java.security.KeyPair;
 import java.util.*;
 
@@ -38,11 +41,28 @@ import java.util.*;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     private final ClientDetailsService clientDetailsService;
     private final AuthenticationManager authenticationManager;
-    private final DataSource dataSource;
+    private final OauthClientFeignClient oauthClientFeignClient;
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(new JdbcClientDetailsService(dataSource));
+        clients.withClientDetails(clientId -> {
+            final OauthClientDTO oauthClient = oauthClientFeignClient.getOauthClient(clientId);
+            if (oauthClient == null) {
+                throw new NoSuchClientException("No client with requested id: " + clientId);
+            }
+            final BaseClientDetails clientDetails = new BaseClientDetails(
+                    oauthClient.getClientId(),
+                    oauthClient.getResourceIds(),
+                    oauthClient.getScope(),
+                    oauthClient.getAuthorizedGrantTypes(),
+                    oauthClient.getAuthorities(),
+                    oauthClient.getWebServerRedirectUri());
+            clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + oauthClient.getClientSecret());
+            clientDetails.setAccessTokenValiditySeconds(oauthClient.getAccessTokenValidity());
+            clientDetails.setRefreshTokenValiditySeconds(oauthClient.getRefreshTokenValidity());
+            clientDetails.setAutoApproveScopes(Arrays.asList(oauthClient.getAutoapprove().split(",")));
+            return clientDetails;
+        });
     }
 
     @Override

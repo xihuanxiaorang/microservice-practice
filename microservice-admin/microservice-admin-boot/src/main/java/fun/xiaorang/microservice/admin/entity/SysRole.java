@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import fun.xiaorang.microservice.common.mybatisplus.entity.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * @author xiaorang
@@ -15,7 +19,7 @@ import lombok.*;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "sys_role")
@@ -39,6 +43,8 @@ public class SysRole extends BaseEntity {
     private Integer sort;
     /**
      * 角色状态（0-正常，1-停用）
+     *
+     * @see fun.xiaorang.microservice.common.base.enums.StatusEnum
      */
     private Integer status;
     /**

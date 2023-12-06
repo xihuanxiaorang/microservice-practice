@@ -16,8 +16,6 @@ spring:
         extension-configs:
           - data-id: microservice-web.yml
             refresh: true
-          - data-id: microservice-common.yml
-            refresh: true
 
 logging:
   level:
