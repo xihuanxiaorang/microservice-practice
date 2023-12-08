@@ -5,5 +5,4 @@ fun.xiaorang.microservice.common.web.config.JacksonConfig,\
 fun.xiaorang.microservice.common.web.converter.String2LocalDateConverter,\
 fun.xiaorang.microservice.common.web.converter.String2LocalDateTimeConverter,\
 fun.xiaorang.microservice.common.web.handler.GlobalExceptionHandler,\
-fun.xiaorang.microservice.common.web.handler.GlobalResponseBodyHandler,\
 fun.xiaorang.microservice.common.web.validation.ValidatorConfig

@@ -6,7 +6,7 @@
     <parent>
         <groupId>fun.xiaorang.microservice</groupId>
         <artifactId>microservice-admin</artifactId>
-        <version>0.2.1-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>microservice-admin-boot</artifactId>

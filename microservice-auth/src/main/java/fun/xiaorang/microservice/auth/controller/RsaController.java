@@ -2,7 +2,6 @@ package fun.xiaorang.microservice.auth.controller;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import fun.xiaorang.microservice.common.web.annotations.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import java.util.Map;
 public class RsaController {
     private final KeyPair keyPair;
 
-    @ResponseResult(ignore = true)
     @GetMapping("/publickey")
     public Map<String, Object> getPublicKey() {
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
