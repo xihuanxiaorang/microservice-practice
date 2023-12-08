@@ -1,12 +1,12 @@
 package fun.xiaorang.microservice.admin.controller;
 
 import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
+import fun.xiaorang.microservice.admin.pojo.request.UserCreateRequest;
 import fun.xiaorang.microservice.admin.service.SysUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author xiaorang
@@ -30,5 +30,10 @@ public class SysUserController {
     @GetMapping("/{username}/authInfo")
     public UserAuthInfo getUserAuthInfo(@PathVariable String username) {
         return sysUserService.getUserAuthInfo(username);
+    }
+
+    @PostMapping
+    public void saveSysUser(@Valid @RequestBody UserCreateRequest userCreateRequest) {
+        sysUserService.save(userCreateRequest);
     }
 }

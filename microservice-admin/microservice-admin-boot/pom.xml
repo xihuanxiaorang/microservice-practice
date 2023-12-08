@@ -45,6 +45,10 @@
             <groupId>fun.xiaorang.microservice</groupId>
             <artifactId>microservice-common-mybatis-plus</artifactId>
         </dependency>
+        <dependency>
+            <groupId>fun.xiaorang.microservice</groupId>
+            <artifactId>microservice-common-redis</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

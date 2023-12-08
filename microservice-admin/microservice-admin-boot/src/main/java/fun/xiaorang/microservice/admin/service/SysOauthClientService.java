@@ -2,7 +2,7 @@ package fun.xiaorang.microservice.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import fun.xiaorang.microservice.admin.dto.OauthClientDTO;
-import fun.xiaorang.microservice.admin.entity.SysOauthClient;
+import fun.xiaorang.microservice.admin.pojo.entity.SysOauthClient;
 
 /**
  * @author xiaorang

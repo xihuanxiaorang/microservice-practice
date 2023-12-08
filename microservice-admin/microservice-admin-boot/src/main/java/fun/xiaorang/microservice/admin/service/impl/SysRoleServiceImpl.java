@@ -1,8 +1,8 @@
 package fun.xiaorang.microservice.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import fun.xiaorang.microservice.admin.entity.SysRole;
 import fun.xiaorang.microservice.admin.mapper.SysRoleMapper;
+import fun.xiaorang.microservice.admin.pojo.entity.SysRole;
 import fun.xiaorang.microservice.admin.service.SysRoleService;
 import org.springframework.stereotype.Service;
 

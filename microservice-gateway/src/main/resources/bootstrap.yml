@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: microservice-gateway
+  profiles:
+    active: dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri:

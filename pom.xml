@@ -18,6 +18,7 @@
         <module>microservice-common</module>
         <module>microservice-auth</module>
         <module>microservice-admin</module>
+        <module>microservice-gateway</module>
     </modules>
 
     <properties>
@@ -147,6 +148,14 @@
                     </annotationProcessorPaths>
                     <!-- due to problem in maven-compiler-plugin, for verbose mode add showWarnings -->
                     <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </arg>
+                        <arg>
+                            -Amapstruct.unmappedTargetPolicy=IGNORE
+                        </arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <!-- 统一修改聚合工程项目版本号：mvn versions:set -DnewVersion=0.0.1-SNAPSHOT & mvn versions:commit  -->

@@ -1,6 +1,6 @@
 package fun.xiaorang.microservice.admin.service;
 
-import fun.xiaorang.microservice.admin.entity.SysUser;
+import fun.xiaorang.microservice.admin.pojo.entity.SysUser;
 import fun.xiaorang.microservice.common.base.enums.GenderEnum;
 import fun.xiaorang.microservice.common.base.enums.StatusEnum;
 import org.junit.jupiter.api.Test;

@@ -4,31 +4,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fun.xiaorang.microservice.admin.mapper.SysOauthClientMapper">
 
-    <resultMap id="BaseResultMap" type="fun.xiaorang.microservice.admin.entity.SysOauthClient">
-        <id property="clientId" column="client_id" jdbcType="VARCHAR"/>
-        <result property="clientSecret" column="client_secret" jdbcType="VARCHAR"/>
-        <result property="resourceIds" column="resource_ids" jdbcType="VARCHAR"/>
-        <result property="scope" column="scope" jdbcType="VARCHAR"/>
-        <result property="authorizedGrantTypes" column="authorized_grant_types" jdbcType="VARCHAR"/>
-        <result property="webServerRedirectUri" column="web_server_redirect_uri" jdbcType="VARCHAR"/>
-        <result property="authorities" column="authorities" jdbcType="VARCHAR"/>
-        <result property="accessTokenValidity" column="access_token_validity" jdbcType="INTEGER"/>
-        <result property="refreshTokenValidity" column="refresh_token_validity" jdbcType="INTEGER"/>
-        <result property="additionalInformation" column="additional_information" jdbcType="VARCHAR"/>
-        <result property="autoapprove" column="autoapprove" jdbcType="VARCHAR"/>
-        <result property="createBy" column="create_by" jdbcType="BIGINT"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateBy" column="update_by" jdbcType="BIGINT"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
-    </resultMap>
-
-    <sql id="Base_Column_List">
-        client_id,client_secret,resource_ids,
-        scope,authorized_grant_types,web_server_redirect_uri,
-        authorities,access_token_validity,refresh_token_validity,
-        additional_information,autoapprove,create_by,
-        create_time,update_by,update_time,
-        deleted
-    </sql>
 </mapper>

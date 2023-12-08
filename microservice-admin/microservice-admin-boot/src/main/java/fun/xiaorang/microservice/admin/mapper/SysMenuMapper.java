@@ -1,7 +1,7 @@
 package fun.xiaorang.microservice.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import fun.xiaorang.microservice.admin.entity.SysMenu;
+import fun.xiaorang.microservice.admin.pojo.entity.SysMenu;
 
 /**
  * @author xiaorang

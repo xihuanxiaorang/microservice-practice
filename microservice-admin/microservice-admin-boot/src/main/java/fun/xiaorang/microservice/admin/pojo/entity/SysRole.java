@@ -1,4 +1,4 @@
-package fun.xiaorang.microservice.admin.entity;
+package fun.xiaorang.microservice.admin.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * @author xiaorang
- * @description <p style = " font-weight:bold ; ">用户表<p/>
+ * @description <p style = " font-weight:bold ; ">角色表<p/>
  * @github <a href="https://github.com/xihuanxiaorang/microservice-practice">microservice-practice</a>
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023-12-04 19:55:48
@@ -22,55 +22,29 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName(value = "sys_user")
-public class SysUser extends BaseEntity {
+@TableName(value = "sys_role")
+public class SysRole extends BaseEntity {
     /**
-     * 用户id
+     * 角色id
      */
     @TableId(type = IdType.AUTO)
     private Long id;
     /**
-     * 用户账号
+     * 角色名称
      */
-    private String username;
+    private String name;
     /**
-     * 用户昵称
+     * 角色权限字符串（如：admin）
      */
-    private String nickname;
+    private String code;
     /**
-     * 用户密码
+     * 显示顺序
      */
-    private String password;
+    private Integer sort;
     /**
-     * 用户性别（0-未知，1-男，2-女）
-     *
-     * @see fun.xiaorang.microservice.common.base.enums.GenderEnum
-     */
-    private Integer gender;
-    /**
-     * 用户头像
-     */
-    private String avatar;
-    /**
-     * 手机号码
-     */
-    private String phone;
-    /**
-     * 用户邮箱
-     */
-    private String email;
-    /**
-     * 账号状态((0-正常, 1-禁用))
+     * 角色状态（0-正常，1-停用）
      *
      * @see fun.xiaorang.microservice.common.base.enums.StatusEnum
      */
     private Integer status;
-    /**
-     * 是否锁定（0-未锁定，1-已锁定）
-     */
-    private Integer locked;
-    /**
-     * 备注
-     */
-    private String remark;
 }

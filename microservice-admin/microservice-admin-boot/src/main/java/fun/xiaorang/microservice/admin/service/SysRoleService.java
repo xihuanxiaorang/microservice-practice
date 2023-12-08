@@ -1,7 +1,7 @@
 package fun.xiaorang.microservice.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import fun.xiaorang.microservice.admin.entity.SysRole;
+import fun.xiaorang.microservice.admin.pojo.entity.SysRole;
 
 /**
  * @author xiaorang

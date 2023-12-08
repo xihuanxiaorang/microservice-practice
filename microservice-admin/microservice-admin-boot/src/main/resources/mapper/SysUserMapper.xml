@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="fun.xiaorang.microservice.admin.mapper.SysUserMapper">
-
     <!-- 用户认证信息映射 -->
     <resultMap id="UserAuthMap" type="fun.xiaorang.microservice.admin.dto.UserAuthInfo">
         <id property="userId" column="userId" jdbcType="BIGINT"/>
@@ -12,17 +11,23 @@
         <result property="status" column="status" jdbcType="TINYINT"/>
         <result property="locked" column="locked" jdbcType="TINYINT"/>
         <collection property="roles" ofType="string" javaType="java.util.Set">
-            <result column="roleCode" jdbcType="VARCHAR"/>
+            <result column="code" jdbcType="VARCHAR"/>
         </collection>
     </resultMap>
 
     <!-- 根据用户名获取认证信息 -->
     <select id="getUserAuthInfo" resultMap="UserAuthMap">
-        SELECT t1.id userId, t1.username, t1.nickname, t1.password, t1.status, t1.locked, t3.code roleCode
+        SELECT t1.id userId,
+               t1.username,
+               t1.nickname,
+               t1.PASSWORD,
+               t1.STATUS,
+               t1.locked,
+               t3.code
         FROM sys_user t1
                  LEFT JOIN sys_user_role t2 ON t1.id = t2.user_id
-                 LEFT JOIN sys_role t3 ON t2.role_id = t3.id
+                 LEFT JOIN sys_role t3 ON t2.role_id = t3.id and t3.deleted = 0 and t3.`status` = 0
         WHERE t1.username = #{username}
-          and t1.deleted = 0;
+          AND t1.deleted = 0;
     </select>
 </mapper>

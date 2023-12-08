@@ -21,7 +21,10 @@ public enum ResultCode implements Serializable {
 
     USERNAME_OR_PASSWORD_ERROR("A0210", "用户名或密码错误"),
     CLIENT_AUTHENTICATION_FAILED("A0212", "客户端认证失败"),
+    INVALID_TOKEN("A0230", "token无效或已过期"),
+    TOKEN_ACCESS_FORBIDDEN("A0231", "token已被禁止访问"),
 
+    ACCESS_UNAUTHORIZED("A0301", "访问未授权"),
     FORBIDDEN_OPERATION("A0302", "演示环境禁止新增、修改和删除重要数据，请本地部署后测试"),
 
     PARAM_ERROR("A0400", "用户请求参数错误"),

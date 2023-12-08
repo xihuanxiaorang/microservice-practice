@@ -2,6 +2,7 @@ package fun.xiaorang.microservice.common.web.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fun.xiaorang.microservice.common.base.model.Result;
+import fun.xiaorang.microservice.common.web.annotations.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.MethodParameter;
@@ -12,6 +13,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.lang.reflect.Method;
 
 /**
  * @author xiaorang
@@ -27,7 +30,14 @@ public class GlobalResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(@NonNull MethodParameter returnType, @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+        final Method method = returnType.getMethod();
+        final Class<?> clazz = returnType.getDeclaringClass();
+        // 如果方法上有 ResponseResult 注解并且 ignore = true，则不进行统一包装
+        if (method != null && method.isAnnotationPresent(ResponseResult.class) && method.getAnnotation(ResponseResult.class).ignore()) {
+            return false;
+        }
+        // 如果类上有 ResponseResult 注解并且 ignore = true，则不进行统一包装
+        return !clazz.isAnnotationPresent(ResponseResult.class) || !clazz.getAnnotation(ResponseResult.class).ignore();
     }
 
     @SneakyThrows

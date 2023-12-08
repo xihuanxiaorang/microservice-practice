@@ -1,8 +1,8 @@
 package fun.xiaorang.microservice.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import fun.xiaorang.microservice.admin.entity.SysMenu;
 import fun.xiaorang.microservice.admin.mapper.SysMenuMapper;
+import fun.xiaorang.microservice.admin.pojo.entity.SysMenu;
 import fun.xiaorang.microservice.admin.service.SysMenuService;
 import org.springframework.stereotype.Service;
 

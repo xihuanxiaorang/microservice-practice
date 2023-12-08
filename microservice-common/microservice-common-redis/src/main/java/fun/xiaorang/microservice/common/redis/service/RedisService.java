@@ -204,7 +204,7 @@ public class RedisService {
      * @param map     值
      * @param timeout 过期时间（秒）
      */
-    public void hset(@NonNull final String key, @NonNull final Map<String, Object> map, final long timeout) {
+    public void hSet(@NonNull final String key, @NonNull final Map<String, Object> map, final long timeout) {
         redisTemplate.opsForHash().putAll(key, map);
         expire(key, timeout);
     }

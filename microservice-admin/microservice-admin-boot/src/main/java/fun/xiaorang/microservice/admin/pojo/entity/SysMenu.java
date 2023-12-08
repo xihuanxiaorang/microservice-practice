@@ -1,10 +1,14 @@
-package fun.xiaorang.microservice.admin.entity;
+package fun.xiaorang.microservice.admin.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import fun.xiaorang.microservice.common.mybatisplus.entity.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * @author xiaorang
@@ -15,7 +19,7 @@ import lombok.*;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName(value = "sys_menu")
@@ -52,10 +56,6 @@ public class SysMenu extends BaseEntity {
      */
     private String componentName;
     /**
-     * 按钮权限标识
-     */
-    private String perm;
-    /**
      * 菜单图标
      */
     private String icon;
@@ -86,8 +86,4 @@ public class SysMenu extends BaseEntity {
      * 【菜单】是否开启页面缓存（0-否，1-是）
      */
     private Integer keepAlive;
-    /**
-     * 备注
-     */
-    private String remark;
 }

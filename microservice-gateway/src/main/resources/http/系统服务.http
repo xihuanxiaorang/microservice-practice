@@ -1,0 +1,15 @@
+### 新增用户
+POST http://localhost:9999/microservice-admin/api/v1/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE3MDIwMTI1MzAsInVzZXJJZCI6MSwiYXV0aG9yaXRpZXMiOlsiYWRtaW4iXSwianRpIjoiRDVwdzJLSkJ2cTNRR1RFX255ZktjdmVwRFBJIiwiY2xpZW50X2lkIjoiY2xpZW50IiwidXNlcm5hbWUiOiJhZG1pbiJ9.UFFU2M5_EwBu87aPEWgoMgMBgFPxvvFHItQgFZUSLeeTtM0Fl4b1gmgsF3kERXOU3obUnbp8_1dSxQ7mujd_FI3WAPA8Bfzx7zsxbbVVBew1ANZtSDr_cNu6a5EcuIjevUzdoQ6L6LrA8fkEVqiyh1aMQvWUbF7KB7CqJn5P7ygcRr72CthpBUMtNyFvyoFBxg7B3SZQk1bE-QTfVoWdCD2sIP5Q-3z1YjrJv5RvgXIRGldViUOXgqtGv25YReunZFHxfnSxS2HW9-SWZxFXaovU5BvhE_g7LDDze8SmG7oqTH7W3Pcmtdf8Tx54OXmlnTD7jVCw35nFgtVb5ZCmfA
+
+{
+  "username": "test",
+  "nickname": "测试用户",
+  "roleIds": [
+    1
+  ],
+  "phone": "15019474951",
+  "email": "15019474951@163.com",
+  "gender": 1
+}

@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 06/12/2023 13:42:10
+ Date: 08/12/2023 12:28:33
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,6 @@ CREATE TABLE `sys_menu`
     `path`           varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '路由地址（浏览器地址栏路径）',
     `component`      varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '组件路径（vue页面完整路径，省略.vue后缀）',
     `component_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '组件名',
-    `perm`           varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL     DEFAULT NULL COMMENT '按钮权限标识',
     `icon`           varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL     DEFAULT NULL COMMENT '菜单图标',
     `sort`           int                                                           NOT NULL DEFAULT 0 COMMENT '显示顺序',
     `status`         tinyint                                                       NOT NULL DEFAULT 0 COMMENT '菜单状态（0-正常，1-停用）',
@@ -43,7 +42,6 @@ CREATE TABLE `sys_menu`
     `update_by`      bigint                                                        NULL     DEFAULT NULL COMMENT '更新人ID',
     `update_time`    datetime                                                      NOT NULL COMMENT '更新时间',
     `deleted`        tinyint                                                       NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0-未删除，1-已删除）',
-    `remark`         varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -54,6 +52,18 @@ CREATE TABLE `sys_menu`
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
+INSERT INTO `sys_menu`
+VALUES (1, 0, 2, '系统管理', '/system', 'Layout', NULL, 'el-icon-setting', 1, 0, 1, '/system/user', 0, 0, 1,
+        '2023-12-08 00:54:12', 1, '2023-12-08 00:54:17', 0);
+INSERT INTO `sys_menu`
+VALUES (2, 1, 1, '用户管理', 'user', 'system/user/index', NULL, 'el-icon-user', 1, 0, 1, NULL, 0, 1, 1,
+        '2023-12-08 00:57:48', 1, '2023-12-08 00:57:52', 0);
+INSERT INTO `sys_menu`
+VALUES (3, 1, 1, '角色管理', 'role', 'system/role/index', NULL, 'el-icon-menu', 2, 0, 1, NULL, 0, 1, 1,
+        '2023-12-08 01:00:00', 1, '2023-12-08 01:00:05', 0);
+INSERT INTO `sys_menu`
+VALUES (4, 1, 1, '菜单管理', 'cmenu', 'system/menu/index', NULL, 'el-icon-menu', 3, 0, 1, NULL, 0, 1, 1,
+        '2023-12-08 01:01:33', 1, '2023-12-08 01:01:36', 0);
 
 -- ----------------------------
 -- Table structure for sys_oauth_client
@@ -88,8 +98,38 @@ CREATE TABLE `sys_oauth_client`
 -- ----------------------------
 INSERT INTO `sys_oauth_client`
 VALUES ('client', '123456', '', 'all', 'authorization_code,password,client_credentials,implicit,refresh_token',
-        'https://www.baidu.com', NULL, 3600, 7200, NULL, 'true', NULL, '2023-12-06 13:41:50', NULL,
-        '2023-12-06 13:41:54', 0);
+        'https://www.baidu.com', NULL, 3600, 7200, NULL, 'true', 1, '2023-12-06 13:41:50', 1, '2023-12-06 13:41:54', 0);
+
+-- ----------------------------
+-- Table structure for sys_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_permission`;
+CREATE TABLE `sys_permission`
+(
+    `id`          bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '权限id',
+    `name`        varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '权限名称',
+    `menu_id`     bigint                                                        NULL     DEFAULT NULL COMMENT '菜单id',
+    `url_perm`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '接口权限标识（如：PUT:/microservice-admin/api/v1/users/*）',
+    `btn_perm`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '按钮权限标识（如：sys:user:edit）',
+    `status`      tinyint                                                       NOT NULL DEFAULT 0 COMMENT '权限状态（0-正常，1-停用）',
+    `create_by`   bigint                                                        NULL     DEFAULT NULL COMMENT '创建人ID',
+    `create_time` datetime                                                      NOT NULL COMMENT '创建时间',
+    `update_by`   bigint                                                        NULL     DEFAULT NULL COMMENT '更新人ID',
+    `update_time` datetime                                                      NOT NULL COMMENT '更新时间',
+    `deleted`     tinyint                                                       NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0-未删除，1-已删除）',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '权限表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_permission
+-- ----------------------------
+INSERT INTO `sys_permission`
+VALUES (1, '新增', 2, 'POST:/microservice-admin/api/v1/users', 'sys:user:add', 0, 1, '2023-12-08 01:04:48', 1,
+        '2023-12-08 01:04:51', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -107,7 +147,6 @@ CREATE TABLE `sys_role`
     `update_by`   bigint                                                        NULL     DEFAULT NULL COMMENT '更新人ID',
     `update_time` datetime                                                      NOT NULL COMMENT '更新时间',
     `deleted`     tinyint                                                       NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0-未删除，1-已删除）',
-    `remark`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `idx_name` (`name` ASC) USING BTREE
 ) ENGINE = InnoDB
@@ -119,6 +158,8 @@ CREATE TABLE `sys_role`
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
+INSERT INTO `sys_role`
+VALUES (1, '管理员', 'admin', 1, 0, 1, '2023-12-08 01:07:38', 1, '2023-12-08 01:07:42', 0);
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -130,7 +171,6 @@ CREATE TABLE `sys_role_menu`
     `menu_id` bigint NOT NULL COMMENT '菜单id',
     PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '角色和菜单关联表'
   ROW_FORMAT = DYNAMIC;
@@ -138,6 +178,28 @@ CREATE TABLE `sys_role_menu`
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO `sys_role_menu`
+VALUES (1, 2);
+
+-- ----------------------------
+-- Table structure for sys_role_permission
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE `sys_role_permission`
+(
+    `role_id`       bigint NOT NULL COMMENT '角色id',
+    `permission_id` bigint NOT NULL COMMENT '权限id',
+    PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '角色和权限关联表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_role_permission
+-- ----------------------------
+INSERT INTO `sys_role_permission`
+VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -160,7 +222,6 @@ CREATE TABLE `sys_user`
     `update_by`   bigint                                                        NULL     DEFAULT NULL COMMENT '更新人ID',
     `update_time` datetime                                                      NOT NULL COMMENT '更新时间',
     `deleted`     tinyint                                                       NOT NULL DEFAULT 0 COMMENT '逻辑删除标识（0-未删除，1-已删除）',
-    `remark`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL     DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `idx_username` (`username` ASC) USING BTREE
 ) ENGINE = InnoDB
@@ -174,7 +235,7 @@ CREATE TABLE `sys_user`
 -- ----------------------------
 INSERT INTO `sys_user`
 VALUES (1, 'admin', '系统管理员', 1, '$2a$10$GRVVJkmT23ljJUVrDXMKIu64t7C22m2KPbFJSqB613/LK6cdhykt.', NULL,
-        '15019474951', '15019474951@163.com', 0, 0, NULL, '2023-12-05 22:16:05', NULL, '2023-12-05 22:16:09', 0, NULL);
+        '15019474951', '15019474951@163.com', 0, 0, 1, '2023-12-05 22:16:05', 1, '2023-12-05 22:16:09', 0);
 
 -- ----------------------------
 -- Table structure for sys_user_role
@@ -182,8 +243,8 @@ VALUES (1, 'admin', '系统管理员', 1, '$2a$10$GRVVJkmT23ljJUVrDXMKIu64t7C22m
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`
 (
-    `user_id` int NOT NULL COMMENT '用户ID',
-    `role_id` int NOT NULL COMMENT '角色ID',
+    `user_id` bigint NOT NULL COMMENT '用户ID',
+    `role_id` bigint NOT NULL COMMENT '角色ID',
     PRIMARY KEY (`user_id`, `role_id`) USING BTREE
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
@@ -193,5 +254,7 @@ CREATE TABLE `sys_user_role`
 -- ----------------------------
 -- Records of sys_user_role
 -- ----------------------------
+INSERT INTO `sys_user_role`
+VALUES (1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
