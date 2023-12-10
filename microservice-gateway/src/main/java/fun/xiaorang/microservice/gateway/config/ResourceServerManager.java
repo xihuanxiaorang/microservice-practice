@@ -1,6 +1,7 @@
 package fun.xiaorang.microservice.gateway.config;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import fun.xiaorang.microservice.common.base.constants.GlobalConstant;
 import fun.xiaorang.microservice.common.base.constants.SecurityConstant;
 import fun.xiaorang.microservice.common.redis.service.RedisService;
@@ -44,7 +45,7 @@ public class ResourceServerManager implements ReactiveAuthorizationManager<Autho
         }
         // 如果 token 为空或者 token 不合法 则进行拦截
         String token = request.getHeaders().getFirst(SecurityConstant.JWT_TOKEN_HEADER);
-        if (token == null || !token.startsWith(SecurityConstant.JWT_TOKEN_PREFIX)) {
+        if (StrUtil.isBlank(token) || !StrUtil.startWithIgnoreCase(token, SecurityConstant.JWT_TOKEN_PREFIX)) {
             return Mono.just(new AuthorizationDecision(false));
         }
         // RESTFul接口权限设计 https://www.cnblogs.com/haoxianrui/p/14961707.html

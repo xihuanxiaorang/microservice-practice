@@ -1,5 +1,7 @@
 package fun.xiaorang.microservice.common.base.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023/11/20 21:37
  */
+@ApiModel(value = "分页响应结构体")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -20,18 +23,22 @@ public class PageResult<T> {
     /**
      * 当前页码
      */
+    @ApiModelProperty(value = "当前页码")
     private Long page;
     /**
      * 每页记录数
      */
+    @ApiModelProperty(value = "每页记录数")
     private Long pageSize;
     /**
      * 总记录数
      */
+    @ApiModelProperty(value = "总记录数")
     private Long total;
     /**
      * 分页数据
      */
+    @ApiModelProperty(value = "分页数据")
     private List<T> items;
 
     public static <T> PageResult<T> of(Long page, Long pageSize, Long total, List<T> items) {

@@ -1,5 +1,6 @@
 package fun.xiaorang.microservice.auth;
 
+import fun.xiaorang.microservice.admin.api.OauthClientFeignClient;
 import fun.xiaorang.microservice.admin.api.UserFeignClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +16,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackageClasses = {UserFeignClient.class})
+@EnableFeignClients(clients = {UserFeignClient.class, OauthClientFeignClient.class})
 public class AuthApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);

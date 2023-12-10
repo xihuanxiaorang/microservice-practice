@@ -2,6 +2,8 @@ package fun.xiaorang.microservice.common.base.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import fun.xiaorang.microservice.common.base.enums.ResultCode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -11,12 +13,24 @@ import lombok.Data;
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023/11/20 21:34
  */
+@ApiModel(value = "统一响应结构体")
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> {
+    /**
+     * 响应码
+     */
+    @ApiModelProperty(value = "响应码")
     private String code;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    /**
+     * 响应消息
+     */
+    @ApiModelProperty(value = "响应消息")
     private String msg;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    /**
+     * 响应数据
+     */
+    @ApiModelProperty(value = "响应数据")
     private T data;
 
     public static <T> Result<T> success() {

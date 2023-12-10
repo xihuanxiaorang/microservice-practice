@@ -1,10 +1,12 @@
 package fun.xiaorang.microservice.gateway.config;
 
+import cn.hutool.json.JSONUtil;
 import fun.xiaorang.microservice.common.base.constants.SecurityConstant;
 import fun.xiaorang.microservice.common.base.enums.ResultCode;
 import fun.xiaorang.microservice.gateway.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,7 @@ import reactor.core.publisher.Mono;
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023/12/07 16:49
  */
+@Slf4j
 @RequiredArgsConstructor
 @EnableWebFluxSecurity
 @Configuration
@@ -40,6 +43,7 @@ public class ResourceServerConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        log.info("whitelist path:{}", JSONUtil.toJsonStr(ignoreUrls));
         http
                 .oauth2ResourceServer()
                 .jwt()

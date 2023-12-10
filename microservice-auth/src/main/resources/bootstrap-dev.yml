@@ -2,6 +2,9 @@ server:
   port: 9000
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   cloud:
     nacos:
       server-addr: http://localhost:8848
@@ -15,6 +18,8 @@ spring:
         refresh-enabled: true
         extension-configs:
           - data-id: microservice-web.yml
+            refresh: true
+          - data-id: microservice-common.yml
             refresh: true
 
 logging:

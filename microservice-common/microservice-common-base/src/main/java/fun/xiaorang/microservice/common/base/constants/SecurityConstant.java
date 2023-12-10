@@ -24,4 +24,8 @@ public interface SecurityConstant {
      * JWT令牌前缀
      */
     String JWT_TOKEN_PREFIX = "Bearer ";
+    /**
+     * 接口文档 Knife4j 测试客户端ID
+     */
+    String TEST_CLIENT_ID = "client";
 }
