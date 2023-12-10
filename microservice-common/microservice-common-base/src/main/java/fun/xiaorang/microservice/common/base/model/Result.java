@@ -53,6 +53,10 @@ public class Result<T> {
         return result(ResultCode.SYSTEM_EXECUTION_ERROR.getCode(), msg, null);
     }
 
+    public static <T> Result<T> fail(String code, String msg) {
+        return result(code, msg, null);
+    }
+
     public static <T> Result<T> judge(boolean status) {
         if (status) {
             return success();

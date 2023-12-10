@@ -13,15 +13,19 @@ import lombok.Getter;
 @Getter
 public class BizException extends RuntimeException {
     private final String code;
-    private final String msg;
 
     public BizException(String code, String msg) {
+        super(msg);
         this.code = code;
-        this.msg = msg;
+    }
+
+    public BizException(String msg) {
+        super(msg);
+        this.code = ResultCode.SYSTEM_EXECUTION_ERROR.getCode();
     }
 
     public BizException(ResultCode resultCode) {
+        super(resultCode.getMsg());
         this.code = resultCode.getCode();
-        this.msg = resultCode.getMsg();
     }
 }

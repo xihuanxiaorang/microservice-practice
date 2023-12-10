@@ -1,12 +1,17 @@
 package fun.xiaorang.microservice.auth.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.nimbusds.jose.JWSObject;
+import fun.xiaorang.microservice.common.base.constants.SecurityConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  * @author xiaorang
@@ -15,6 +20,7 @@ import java.util.Base64;
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023/12/02 17:36
  */
+@Slf4j
 public class RequestUtil {
     /**
      * 获取登录认证的客户端ID
@@ -26,7 +32,7 @@ public class RequestUtil {
      * @return clientId 客户端ID
      */
     public static String getClientId() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         // 从请求路径中获取
         String clientId = request.getParameter("client_id");
         if (StrUtil.isNotBlank(clientId)) {
@@ -40,5 +46,21 @@ public class RequestUtil {
             clientId = basicPlainText.split(":")[0]; //client:secret
         }
         return clientId;
+    }
+
+    /**
+     * 获取JWT负载信息
+     *
+     * @return payload 负载信息
+     * @throws ParseException 解析异常
+     */
+    public static String getJwtPayload() throws ParseException {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        String authorization = request.getHeader(SecurityConstant.JWT_TOKEN_HEADER);
+        if (StrUtil.isBlank(authorization) || !StrUtil.startWithIgnoreCase(authorization, SecurityConstant.JWT_TOKEN_PREFIX)) {
+            return null;
+        }
+        authorization = StrUtil.replaceIgnoreCase(authorization, SecurityConstant.JWT_TOKEN_PREFIX, "");
+        return JWSObject.parse(authorization).getPayload().toString();
     }
 }

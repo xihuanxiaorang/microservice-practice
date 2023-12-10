@@ -150,11 +150,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BizException.class)
     public <T> Result<T> handleException(BizException e) {
-        log.error("biz exception:{}", e.getMessage(), e);
-        if (e.getCode() != null) {
-            return Result.fail(e.getCode());
-        }
-        return Result.fail(e.getMessage());
+        log.error("业务异常：{}", e.getMessage(), e);
+        return Result.fail(e.getCode(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -164,7 +161,7 @@ public class GlobalExceptionHandler {
         if (StrUtil.isNotBlank(errorMsg) && errorMsg.contains("denied to user")) {
             return Result.fail(ResultCode.FORBIDDEN_OPERATION);
         } else {
-            log.error("unknown exception:{}", e.getMessage());
+            log.error("未知异常：{}", e.getMessage());
             return Result.fail(e.getMessage());
         }
     }

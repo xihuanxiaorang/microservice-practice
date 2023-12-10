@@ -3,6 +3,8 @@ package fun.xiaorang.microservice.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import fun.xiaorang.microservice.admin.pojo.entity.SysUserRole;
 
+import java.util.List;
+
 /**
  * @author xiaorang
  * @description <p style = " font-weight:bold ; "><p/>
@@ -11,5 +13,11 @@ import fun.xiaorang.microservice.admin.pojo.entity.SysUserRole;
  * @date 2023-12-08 02:26:10
  */
 public interface SysUserRoleService extends IService<SysUserRole> {
-
+    /**
+     * 根据用户ID获取绑定的角色ID集合
+     *
+     * @param userId 用户ID
+     * @return 角色ID集合
+     */
+    List<Long> selectRoleIds(Long userId);
 }

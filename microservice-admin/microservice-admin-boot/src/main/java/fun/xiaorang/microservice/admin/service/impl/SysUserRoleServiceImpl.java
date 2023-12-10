@@ -6,6 +6,9 @@ import fun.xiaorang.microservice.admin.pojo.entity.SysUserRole;
 import fun.xiaorang.microservice.admin.service.SysUserRoleService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author xiaorang
  * @description <p style = " font-weight:bold ; "><p/>
@@ -15,7 +18,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
-
+    @Override
+    public List<Long> selectRoleIds(final Long userId) {
+        return lambdaQuery()
+                .eq(SysUserRole::getUserId, userId)
+                .list()
+                .stream()
+                .map(SysUserRole::getRoleId)
+                .collect(Collectors.toList());
+    }
 }
 
 

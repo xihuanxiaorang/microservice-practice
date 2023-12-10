@@ -3,7 +3,8 @@ package fun.xiaorang.microservice.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
 import fun.xiaorang.microservice.admin.pojo.entity.SysUser;
-import fun.xiaorang.microservice.admin.pojo.request.UserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.request.SysUserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.vo.SysUserVO;
 
 import javax.validation.Valid;
 
@@ -26,7 +27,16 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 新增用户
      *
-     * @param userCreateRequest 新增用户请求
+     * @param sysUserCreateRequest 新增用户请求
+     * @return 是否新增成功，true：成功，false：失败
      */
-    void save(@Valid UserCreateRequest userCreateRequest);
+    boolean save(@Valid SysUserCreateRequest sysUserCreateRequest);
+
+    /**
+     * 获取用户详情
+     *
+     * @param userId 用户ID
+     * @return 用户详情
+     */
+    SysUserVO getSysUserDetails(Long userId);
 }

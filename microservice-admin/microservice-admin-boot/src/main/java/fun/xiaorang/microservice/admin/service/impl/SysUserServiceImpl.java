@@ -8,10 +8,12 @@ import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
 import fun.xiaorang.microservice.admin.mapper.SysUserMapper;
 import fun.xiaorang.microservice.admin.pojo.entity.SysUser;
 import fun.xiaorang.microservice.admin.pojo.entity.SysUserRole;
-import fun.xiaorang.microservice.admin.pojo.request.UserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.request.SysUserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.vo.SysUserVO;
 import fun.xiaorang.microservice.admin.service.SysUserRoleService;
 import fun.xiaorang.microservice.admin.service.SysUserService;
 import fun.xiaorang.microservice.common.base.constants.GlobalConstant;
+import fun.xiaorang.microservice.common.base.exception.BizException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,20 +43,33 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Transactional
     @Override
-    public void save(final UserCreateRequest userCreateRequest) {
-        final String username = userCreateRequest.getUsername();
+    public boolean save(final SysUserCreateRequest sysUserCreateRequest) {
+        final String username = sysUserCreateRequest.getUsername();
         final long count = this.count(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
         Assert.isTrue(count == 0, "用户名已存在");
-        final SysUser sysUser = sysUserConverter.requestToEntity(userCreateRequest);
+        final SysUser sysUser = sysUserConverter.requestToEntity(sysUserCreateRequest);
         sysUser.setPassword(passwordEncoder.encode(GlobalConstant.USER_DEFAULT_PASSWORD));
         final boolean result = this.save(sysUser);
         if (result) {
-            final List<SysUserRole> sysUserRoles = userCreateRequest.getRoleIds()
+            final List<SysUserRole> sysUserRoles = sysUserCreateRequest.getRoleIds()
                     .stream()
                     .map(roleId -> new SysUserRole(sysUser.getId(), roleId))
                     .collect(Collectors.toList());
             sysUserRoleService.saveBatch(sysUserRoles);
         }
+        return result;
+    }
+
+    @Override
+    public SysUserVO getSysUserDetails(final Long userId) {
+        final SysUser sysUser = lambdaQuery().eq(SysUser::getId, userId).one();
+        if (sysUser == null) {
+            throw new BizException("用户不存在！");
+        }
+        SysUserVO sysUserVO = sysUserConverter.entityToVO(sysUser);
+        final List<Long> roleIds = sysUserRoleService.selectRoleIds(userId);
+        sysUserVO.setRoleIds(roleIds);
+        return sysUserVO;
     }
 }
 

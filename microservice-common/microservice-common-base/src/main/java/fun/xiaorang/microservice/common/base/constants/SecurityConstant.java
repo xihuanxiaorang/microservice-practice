@@ -28,4 +28,20 @@ public interface SecurityConstant {
      * 接口文档 Knife4j 测试客户端ID
      */
     String TEST_CLIENT_ID = "client";
+    /**
+     * 黑名单TOKEN Key前缀
+     */
+    String BLACKLIST_TOKEN_PREFIX = "AUTH:BLACKLIST_TOKEN:";
+    /**
+     * JWT载体key
+     */
+    String JWT_PAYLOAD_KEY = "payload";
+    /**
+     * JWT ID 唯一标识
+     */
+    String JWT_JTI = "jti";
+    /**
+     * JWT 过期时间戳
+     */
+    String JWT_EXP = "exp";
 }

@@ -1,7 +1,8 @@
 package fun.xiaorang.microservice.admin.convert;
 
 import fun.xiaorang.microservice.admin.pojo.entity.SysUser;
-import fun.xiaorang.microservice.admin.pojo.request.UserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.request.SysUserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.vo.SysUserVO;
 import org.mapstruct.Mapper;
 
 /**
@@ -13,5 +14,7 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 public interface SysUserConverter {
-    SysUser requestToEntity(UserCreateRequest userCreateRequest);
+    SysUser requestToEntity(SysUserCreateRequest sysUserCreateRequest);
+
+    SysUserVO entityToVO(SysUser sysUser);
 }

@@ -1,7 +1,8 @@
 package fun.xiaorang.microservice.admin.controller;
 
 import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
-import fun.xiaorang.microservice.admin.pojo.request.UserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.request.SysUserCreateRequest;
+import fun.xiaorang.microservice.admin.pojo.vo.SysUserVO;
 import fun.xiaorang.microservice.admin.service.SysUserService;
 import fun.xiaorang.microservice.common.base.model.Result;
 import io.swagger.annotations.Api;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author xiaorang
@@ -40,8 +42,14 @@ public class SysUserController {
 
     @ApiOperation(value = "新增用户")
     @PostMapping
-    public Result<Void> saveSysUser(@Valid @RequestBody UserCreateRequest userCreateRequest) {
-        sysUserService.save(userCreateRequest);
-        return Result.success();
+    public Result<Void> saveSysUser(@Valid @RequestBody SysUserCreateRequest sysUserCreateRequest) {
+        final boolean result = sysUserService.save(sysUserCreateRequest);
+        return Result.judge(result);
+    }
+
+    @ApiOperation(value = "获取用户详情")
+    @GetMapping("/{userId}")
+    public Result<SysUserVO> getSysUserDetails(@NotNull(message = "用户ID不能为空") @PathVariable Long userId) {
+        return Result.success(sysUserService.getSysUserDetails(userId));
     }
 }

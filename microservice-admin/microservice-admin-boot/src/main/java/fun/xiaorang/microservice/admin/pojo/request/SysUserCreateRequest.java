@@ -16,7 +16,7 @@ import java.util.List;
  */
 @ApiModel(value = "用户创建请求对象")
 @Data
-public class UserCreateRequest {
+public class SysUserCreateRequest {
     @ApiModelProperty(value = "用户名", example = "xiaorang")
     @NotBlank(message = "用户名不能为空")
     private String username;

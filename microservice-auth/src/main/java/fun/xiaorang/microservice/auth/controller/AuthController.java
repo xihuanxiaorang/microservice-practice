@@ -1,22 +1,23 @@
 package fun.xiaorang.microservice.auth.controller;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import fun.xiaorang.microservice.auth.utils.RequestUtil;
 import fun.xiaorang.microservice.common.base.constants.SecurityConstant;
 import fun.xiaorang.microservice.common.base.model.Result;
+import fun.xiaorang.microservice.common.redis.service.RedisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
@@ -36,6 +37,7 @@ import java.util.Map;
 @RestController
 public class AuthController {
     private final TokenEndpoint tokenEndpoint;
+    private final RedisService redisService;
 
     @ApiOperation(value = "OAuth2认证", notes = "登录入口")
     @ApiImplicitParams({
@@ -62,5 +64,28 @@ public class AuthController {
             return accessToken;
         }
         return Result.success(accessToken);
+    }
+
+    @SneakyThrows
+    @ApiOperation(value = "注销")
+    @DeleteMapping("/logout")
+    public Result<String> logout() {
+        final String payload = RequestUtil.getJwtPayload();
+        if (StrUtil.isNotBlank(payload)) {
+            final JSONObject entries = JSONUtil.parseObj(payload);
+            final String jti = entries.getStr(SecurityConstant.JWT_JTI);
+            final Long expireTime = entries.getLong(SecurityConstant.JWT_EXP);
+            if (expireTime != null) {
+                final long currentTime = System.currentTimeMillis() / 1000; // 当前时间（单位：秒）
+                // token未过期，添加至redis作为黑名单限制访问，缓存时间为token剩余有效时间
+                if (expireTime > currentTime) {
+                    redisService.set(SecurityConstant.BLACKLIST_TOKEN_PREFIX + jti, StrUtil.EMPTY, (expireTime - currentTime));
+                }
+            } else {
+                // token 永不过期则永久加入黑名单
+                redisService.set(SecurityConstant.BLACKLIST_TOKEN_PREFIX + jti, StrUtil.EMPTY);
+            }
+        }
+        return Result.success();
     }
 }
