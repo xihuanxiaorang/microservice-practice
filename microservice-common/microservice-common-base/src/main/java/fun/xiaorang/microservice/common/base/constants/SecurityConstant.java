@@ -44,4 +44,8 @@ public interface SecurityConstant {
      * JWT 过期时间戳
      */
     String JWT_EXP = "exp";
+    /**
+     * 验证码key前缀
+     */
+    String VERIFY_CODE_KEY_PREFIX = "AUTH:VERIFY_CODE:";
 }

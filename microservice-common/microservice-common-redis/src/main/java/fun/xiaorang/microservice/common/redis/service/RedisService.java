@@ -119,6 +119,18 @@ public class RedisService {
     }
 
     /**
+     * 设置缓存
+     *
+     * @param key     键
+     * @param value   值
+     * @param timeout 过期时间
+     * @param unit    时间单位
+     */
+    public void set(@NonNull final String key, @NonNull final Object value, @NonNull final long timeout, @NonNull final TimeUnit unit) {
+        redisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
+
+    /**
      * 缓存递增
      *
      * @param key   键

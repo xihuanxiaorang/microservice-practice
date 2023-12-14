@@ -2,7 +2,7 @@ package fun.xiaorang.microservice.gateway.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -18,7 +18,7 @@ import java.util.Optional;
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023/12/08 18:35
  */
-@RestController
+@Component
 public class SwaggerHandler {
     private final SwaggerResourcesProvider swaggerResources;
     private final SecurityConfiguration securityConfiguration;
