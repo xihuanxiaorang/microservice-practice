@@ -3,7 +3,9 @@ package fun.xiaorang.microservice.auth.config;
 import fun.xiaorang.microservice.admin.api.OauthClientFeignClient;
 import fun.xiaorang.microservice.admin.dto.OauthClientDTO;
 import fun.xiaorang.microservice.auth.enums.PasswordEncoderTypeEnum;
+import fun.xiaorang.microservice.auth.extension.captcha.CaptchaTokenGranter;
 import fun.xiaorang.microservice.auth.pojo.SysUserDetails;
+import fun.xiaorang.microservice.common.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +18,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -42,6 +46,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final ClientDetailsService clientDetailsService;
     private final AuthenticationManager authenticationManager;
     private final OauthClientFeignClient oauthClientFeignClient;
+    private final RedisService redisService;
 
     @Override
     public void configure(final ClientDetailsServiceConfigurer clients) throws Exception {
@@ -67,9 +72,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) {
+        // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
+        List<TokenGranter> granterList = new ArrayList<>(Collections.singletonList(endpoints.getTokenGranter()));
+        // 添加验证码授权模式授权者
+        granterList.add(new CaptchaTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory(), redisService));
+        CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints
                 .authenticationManager(authenticationManager)
-                .tokenServices(tokenServices());
+                .tokenServices(tokenServices())
+                .tokenGranter(compositeTokenGranter);
     }
 
     @Bean

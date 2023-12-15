@@ -2,6 +2,7 @@ package fun.xiaorang.microservice.auth.exception;
 
 import fun.xiaorang.microservice.common.base.enums.ResultCode;
 import fun.xiaorang.microservice.common.base.model.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @Copyright 博客：<a href="https://blog.xiaorang.fun">小让的糖果屋</a>  - show me the code
  * @date 2023/12/01 22:17
  */
+@Slf4j
 @RestControllerAdvice
 public class AuthExceptionHandler {
     /**
@@ -54,6 +56,7 @@ public class AuthExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidClientException.class)
     public <T> Result<T> handleException(InvalidClientException e) {
+        log.error(e.getMessage(), e);
         return Result.fail(ResultCode.CLIENT_AUTHENTICATION_FAILED);
     }
 
