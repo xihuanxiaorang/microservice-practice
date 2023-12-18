@@ -16,7 +16,8 @@ spring:
         extension-configs:
           - data-id: microservice-common.yml
             refresh: true
-
+          - data-id: microservice-common-sms.yml
+            refresh: true
 logging:
   level:
     org:

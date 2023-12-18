@@ -1,0 +1,2 @@
+### 发送短信
+POST http://localhost:9999/sms-code?mobile=15019474951

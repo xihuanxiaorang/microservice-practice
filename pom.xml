@@ -34,6 +34,7 @@
         <druid.version>1.2.19</druid.version>
         <knife4j.version>2.0.9</knife4j.version>
         <swagger.version>1.6.2</swagger.version>
+        <sms4j.version>3.0.4</sms4j.version>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +106,12 @@
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+            <!-- sms4j 短信依赖 -->
+            <dependency>
+                <groupId>org.dromara.sms4j</groupId>
+                <artifactId>sms4j-spring-boot-starter</artifactId>
+                <version>${sms4j.version}</version>
             </dependency>
             <!-- 业务组件 -->
             <dependency>

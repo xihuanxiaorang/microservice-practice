@@ -48,4 +48,8 @@ public interface SecurityConstant {
      * 验证码key前缀
      */
     String VERIFY_CODE_KEY_PREFIX = "AUTH:VERIFY_CODE:";
+    /**
+     * 短信验证码key前缀
+     */
+    String SMS_CODE_PREFIX = "SMS_CODE:";
 }
