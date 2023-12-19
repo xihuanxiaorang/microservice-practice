@@ -27,7 +27,7 @@
         FROM sys_user t1
                  LEFT JOIN sys_user_role t2 ON t1.id = t2.user_id
                  LEFT JOIN sys_role t3 ON t2.role_id = t3.id and t3.deleted = 0 and t3.`status` = 0
-        WHERE t1.username = #{username}
+        WHERE (t1.username = #{username} or t1.phone = #{username})
           AND t1.deleted = 0;
     </select>
 </mapper>

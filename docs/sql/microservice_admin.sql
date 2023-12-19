@@ -97,7 +97,8 @@ CREATE TABLE `sys_oauth_client`
 -- Records of sys_oauth_client
 -- ----------------------------
 INSERT INTO `sys_oauth_client`
-VALUES ('client', '123456', '', 'all', 'authorization_code,password,client_credentials,implicit,refresh_token,captcha',
+VALUES ('client', '123456', '', 'all',
+        'authorization_code,password,client_credentials,implicit,refresh_token,captcha,sms_code',
         'https://www.baidu.com', NULL, 3600, 7200, NULL, 'true', 1, '2023-12-06 13:41:50', 1, '2023-12-06 13:41:54', 0);
 
 -- ----------------------------

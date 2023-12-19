@@ -4,6 +4,7 @@ import fun.xiaorang.microservice.admin.api.OauthClientFeignClient;
 import fun.xiaorang.microservice.admin.dto.OauthClientDTO;
 import fun.xiaorang.microservice.auth.enums.PasswordEncoderTypeEnum;
 import fun.xiaorang.microservice.auth.extension.captcha.CaptchaTokenGranter;
+import fun.xiaorang.microservice.auth.extension.mobile.SmsCodeTokenGranter;
 import fun.xiaorang.microservice.auth.pojo.SysUserDetails;
 import fun.xiaorang.microservice.common.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 添加验证码授权模式授权者
         granterList.add(new CaptchaTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                 endpoints.getOAuth2RequestFactory(), redisService));
+        // 添加手机短信验证码授权模式授权者
+        granterList.add(new SmsCodeTokenGranter(authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                endpoints.getOAuth2RequestFactory()));
         CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
         endpoints
                 .authenticationManager(authenticationManager)

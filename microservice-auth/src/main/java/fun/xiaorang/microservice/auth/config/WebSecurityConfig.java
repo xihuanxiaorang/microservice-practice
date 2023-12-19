@@ -3,8 +3,10 @@ package fun.xiaorang.microservice.auth.config;
 import cn.hutool.json.JSONUtil;
 import fun.xiaorang.microservice.admin.api.UserFeignClient;
 import fun.xiaorang.microservice.admin.dto.UserAuthInfo;
+import fun.xiaorang.microservice.auth.extension.mobile.SmsCodeAuthenticationProvider;
 import fun.xiaorang.microservice.auth.pojo.SysUserDetails;
 import fun.xiaorang.microservice.common.base.enums.ResultCode;
+import fun.xiaorang.microservice.common.redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserFeignClient userFeignClient;
+    private final RedisService redisService;
 
     @Setter
     private String[] ignoreUrls;
@@ -60,7 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
+        auth
+                .authenticationProvider(daoAuthenticationProvider())
+                .authenticationProvider(smsCodeAuthenticationProvider());
     }
 
     /**
@@ -76,6 +81,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
         provider.setHideUserNotFoundExceptions(false);
         return provider;
+    }
+
+    @Bean
+    public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+        return new SmsCodeAuthenticationProvider(redisService, sysUserDetailsService());
     }
 
     @Bean

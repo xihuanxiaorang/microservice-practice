@@ -25,7 +25,15 @@ GET http://localhost:9999/captcha
 
 #### 5.2. 获取访问令牌
 POST http://localhost:9999/microservice-auth/oauth/token?grant_type=captcha&username=admin&password=123456&
-    verifyCode=lnz4&verifyCodeKey=75498ca2f1694011b2eb7c913cb5213a
+    verifyCode=bnjx&verifyCodeKey=a2f056317a0a4449a8fdf9a030e798ae
+Authorization: Basic client 123456
+
+# 6. 手机验证码模式，该模式需要先获取手机验证码，再获取访问令牌
+#### 6.1. 获取手机验证码
+POST http://localhost:9999/sms-code?mobile=15019474951
+
+#### 6.2. 获取访问令牌
+POST http://localhost:9999/microservice-auth/oauth/token?grant_type=sms_code&mobile=15019474951&code=573955
 Authorization: Basic client 123456
 
 ### 刷新令牌
